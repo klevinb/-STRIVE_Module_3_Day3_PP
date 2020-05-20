@@ -145,7 +145,7 @@
           This page will dynamically load pictures from the web, and display them in a cool way!
         </p>
         <p>
-          <a href="#" class="btn btn-primary my-2">Load Images</a>
+          <a href="#" onclick="loadImg()" class="btn btn-primary my-2">Load Images</a>
           <a href="#" class="btn btn-secondary my-2">Load Secondary Images</a>
         </p>
       </div>
@@ -163,6 +163,7 @@
                 <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                   Thumbnail
                 </text>
+                
               </svg>
               <div class="card-body">
                 <p class="card-text">
@@ -450,6 +451,35 @@
   </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script>
+
+    function deleteAtributs(){
+      let reference = document.querySelectorAll(".container .card >:first-child")
+      for(let i=0; i<reference.length; i++){
+        reference[i].remove()
+      }
+    }
+
+    function loadImg(){
+      deleteAtributs()
+
+      fetch("http://www.splashbase.co/api/v1/images/search?query=car")
+      .then(response => response.json())
+      .then(images => images.images)
+      .then(dataCollected =>{
+        let reference = document.querySelectorAll(".container .card")
+
+        for(let i=0; reference.length; i++){
+          let img = document.createElement("img")
+          img.src=dataCollected[i].url
+          img.setAttribute("style","height:300px")
+
+          reference[i].insertAdjacentElement('afterbegin', img)
+        }
+      })
+
+    }
   </script>
 </body>
 
